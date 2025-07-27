@@ -34,4 +34,30 @@
   .input-field {
     @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-300 focus:border-rose-500 outline-none transition-colors;
   }
+
+  /* Intro Animation */
+  .intro-char {
+    display: inline-block;
+    width: auto;
+  }
+
+  .intro-char-hidden {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .intro-char-visible {
+    animation: fadeInChar 0.2s ease-in-out both;
+  }
+}
+
+@keyframes fadeInChar {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
