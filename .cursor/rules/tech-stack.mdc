@@ -1,0 +1,43 @@
+---
+alwaysApply: true
+description: プロジェクトの技術スタック情報
+---
+
+# Wedding Invitation Tech Stack
+
+## Core Framework
+- **React**: 19.1.0 - メインのUIフレームワーク
+- **TypeScript**: 5.8.3 - 型安全性を提供
+- **Vite**: 7.0.4 - ビルドツール・開発サーバー
+
+## スタイリング
+- **Tailwind CSS**: 4.1.11 (Vite Plugin版) - ユーティリティファーストCSSフレームワーク
+- **カスタムテーマ設定**: [tailwind.config.js](mdc:tailwind.config.js)
+  - Noto Serif JP / Noto Sans JP フォント
+  - カスタムroseカラーパレット
+
+## ユーティリティライブラリ
+- **date-fns**: 4.1.0 - 日付操作ライブラリ
+- **lucide-react**: 0.526.0 - React向けアイコンライブラリ
+- **clsx**: 2.1.1 - 条件付きクラス名操作
+- **react-router-dom**: 7.7.1 - SPAルーティング
+
+## 開発ツール・設定
+- **ESLint**: 9.30.1 - 最新のFlat Config形式 ([eslint.config.js](mdc:eslint.config.js))
+- **TypeScript設定**: [tsconfig.app.json](mdc:tsconfig.app.json)
+  - Strict mode有効
+  - ES2022ターゲット
+  - React JSX設定
+
+## 主要設定ファイル
+- [package.json](mdc:package.json) - 依存関係管理
+- [vite.config.ts](mdc:vite.config.ts) - Vite設定（React + Tailwind プラグイン）
+- [tailwind.config.js](mdc:tailwind.config.js) - Tailwind CSS設定
+- [tsconfig.json](mdc:tsconfig.json) - TypeScript設定（Project References）
+- [eslint.config.js](mdc:eslint.config.js) - ESLint設定
+
+## 注意事項
+- Tailwind CSS v4系を使用（Vite プラグイン版）
+- React 19の最新機能を活用
+- ESLint Flat Config形式を採用
+- TypeScript Strict mode有効
