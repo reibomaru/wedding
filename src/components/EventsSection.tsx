@@ -1,5 +1,5 @@
 import React from "react";
-import { MapPin, Phone, ExternalLink } from "lucide-react";
+import { MapPin, ExternalLink } from "lucide-react";
 
 export const EventsSection: React.FC = () => {
   return (
@@ -60,19 +60,19 @@ export const EventsSection: React.FC = () => {
           <div className="flex items-center justify-center gap-3 mb-4">
             <MapPin className="text-gray-500 flex-shrink-0" size={20} />
             <p className="text-gray-700 text-lg">
-              〒108-0073　東京都港区三田2-3-7
+              〒108-0073 東京都港区三田2-3-7
             </p>
           </div>
 
           <div className="flex items-center justify-center gap-3 mb-8">
             <ExternalLink className="text-gray-500 flex-shrink-0" size={20} />
             <a
-              href="https://www.mitsui-club.co.jp/tsunamachi/"
+              href="https://www.tsunamachimitsuiclub.co.jp/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-rose-600 hover:text-rose-700 underline text-lg"
             >
-              https://www.mitsui-club.co.jp/tsunamachi/
+              https://www.tsunamachimitsuiclub.co.jp/
             </a>
           </div>
 
