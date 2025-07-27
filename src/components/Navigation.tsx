@@ -6,11 +6,11 @@ export const Navigation: React.FC = () => {
   const [activeSection, setActiveSection] = useState("");
 
   const navItems = [
-    { id: "message", label: "Message", icon: "💌" },
-    { id: "profile", label: "Profile", icon: "👫" },
-    { id: "countdown", label: "Countdown", icon: "⏰" },
-    { id: "events", label: "Events", icon: "🗓️" },
-    { id: "rsvp", label: "RSVP", icon: "✍️" },
+    { id: "message", label: "Message" },
+    { id: "profile", label: "Profile" },
+    { id: "countdown", label: "Countdown" },
+    { id: "events", label: "Events" },
+    { id: "rsvp", label: "RSVP" },
   ];
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export const Navigation: React.FC = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-sm shadow-sm z-50">
+    <nav className="fixed top-0 left-0 right-0 bg-white/40 backdrop-blur-sm shadow-sm z-50">
       <div className="max-w-4xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <h1 className="text-xl font-serif font-semibold text-gray-800">
@@ -55,13 +55,12 @@ export const Navigation: React.FC = () => {
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className={`flex items-center gap-2 text-sm font-medium transition-colors ${
+                className={`text-sm font-medium transition-colors ${
                   activeSection === item.id
                     ? "text-rose-600"
                     : "text-gray-600 hover:text-rose-500"
                 }`}
               >
-                <span>{item.icon}</span>
                 <span>{item.label}</span>
               </button>
             ))}
@@ -84,13 +83,12 @@ export const Navigation: React.FC = () => {
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`flex items-center gap-3 w-full text-left px-4 py-2 rounded-lg transition-colors ${
+                  className={`w-full text-left px-4 py-2 rounded-lg transition-colors ${
                     activeSection === item.id
                       ? "bg-rose-50 text-rose-600"
                       : "text-gray-600 hover:bg-gray-50"
                   }`}
                 >
-                  <span>{item.icon}</span>
                   <span>{item.label}</span>
                 </button>
               ))}

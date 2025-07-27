@@ -79,7 +79,10 @@ export const RSVPSection: React.FC = () => {
 
   return (
     <section id="rsvp" className="section-container">
-      <h2 className="heading-main text-center">RSVP</h2>
+      <div className="text-center mb-8">
+        <h2 className="heading-main mb-2">R.S.V.P.</h2>
+        <p className="text-lg text-gray-600">ご出欠</p>
+      </div>
 
       <div className="text-elegant text-center mb-12 space-y-4">
         <p className="text-lg">

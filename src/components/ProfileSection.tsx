@@ -11,7 +11,6 @@ export const ProfileSection: React.FC = () => {
           <h3 className="text-3xl font-serif font-semibold text-gray-800 mb-2">
             新郎
           </h3>
-          <p className="text-lg text-gray-600 mb-8">GROOM</p>
 
           <div className="space-y-4 text-gray-700">
             <div>
@@ -46,7 +45,6 @@ export const ProfileSection: React.FC = () => {
           <h3 className="text-3xl font-serif font-semibold text-gray-800 mb-2">
             新婦
           </h3>
-          <p className="text-lg text-gray-600 mb-8">BRIDE</p>
 
           <div className="space-y-4 text-gray-700">
             <div>

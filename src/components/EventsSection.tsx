@@ -4,7 +4,7 @@ import { MapPin, ExternalLink } from "lucide-react";
 export const EventsSection: React.FC = () => {
   return (
     <section id="events" className="section-container">
-      <h2 className="heading-main text-center">Events</h2>
+      <h2 className="heading-main text-center">Information</h2>
 
       <div className="grid md:grid-cols-2 gap-12 mb-16">
         {/* 挙式 */}
@@ -20,7 +20,6 @@ export const EventsSection: React.FC = () => {
             <div>
               <p className="font-medium text-lg">2025.10.04 Sat</p>
               <p className="text-3xl font-bold text-rose-600 my-2">10:30</p>
-              <p className="text-sm">受付時間 10:00</p>
             </div>
           </div>
         </div>
@@ -47,7 +46,7 @@ export const EventsSection: React.FC = () => {
       {/* 会場情報 */}
       <div className="text-center">
         <h3 className="text-2xl font-serif font-semibold text-gray-800 mb-8">
-          会場情報
+          会場
         </h3>
 
         <div className="space-y-6">

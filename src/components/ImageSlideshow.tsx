@@ -71,10 +71,7 @@ export const ImageSlideshow: React.FC = () => {
           <div className="text-2xl md:text-4xl lg:text-5xl font-serif mb-6 drop-shadow-xl">
             杉浦 伶 & 田中 陽子
           </div>
-          <div className="text-lg md:text-xl lg:text-2xl mb-8 drop-shadow-lg">
-            Sugiura Rei & Tanaka Yoko
-          </div>
-          <div className="bg-white bg-opacity-90 rounded-lg p-4 md:p-6 mx-auto max-w-md backdrop-blur-sm">
+          <div className="bg-white/60 bg-opacity-40 rounded-lg p-4 md:p-6 mx-auto max-w-md backdrop-blur-sm">
             <p className="text-lg md:text-xl font-serif text-gray-800 mb-2">
               2025年10月4日（土）
             </p>
