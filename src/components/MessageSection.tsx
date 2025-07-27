@@ -6,16 +6,21 @@ export const MessageSection: React.FC = () => {
       <h2 className="heading-main text-center">Message</h2>
 
       <div className="text-elegant text-center space-y-6 mb-16">
-        <p className="text-lg">皆様いかがお過ごしでしょうか</p>
+        <p className="text-lg">木々の緑もあざやかな今日この頃</p>
         <p className="text-lg">
-          このたび 結婚式を
+          皆様にはおすこやかにお過ごしのことと
+          <br />
+          お慶び申し上げます
+        </p>
+        <p className="text-lg">
+          このたび 私たちは 結婚式を
           <br />
           執り行うこととなりました
         </p>
         <p className="text-lg">
           日頃お世話になっております
           <br />
-          みなさまに 私どもの門出を
+          みなさまに 私たちの門出を
           <br />
           お見守りいただきたく
         </p>
