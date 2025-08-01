@@ -1,5 +1,5 @@
 import React from "react";
-import { MapPin, ExternalLink } from "lucide-react";
+import { MapPin, ExternalLink, Calendar } from "lucide-react";
 
 export const EventsSection: React.FC = () => {
   return (
@@ -22,6 +22,18 @@ export const EventsSection: React.FC = () => {
               <p className="text-3xl font-bold text-rose-600 my-2">10:30</p>
             </div>
           </div>
+
+          <div className="mt-6">
+            <a
+              href="https://calendar.google.com/calendar/event?action=TEMPLATE&text=%E6%8C%99%E5%BC%8F&dates=20251004T013000Z/20251004T023000Z&details=%E7%B6%B1%E7%94%BA%E4%B8%89%E4%BA%95%E5%80%B6%E6%A5%BD%E9%83%A8%E3%81%A7%E3%81%AE%E6%8C%99%E5%BC%8F&location=%E7%B6%B1%E7%94%BA%E4%B8%89%E4%BA%95%E5%80%B6%E6%A5%BD%E9%83%A8%20%E3%80%92108-0073%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%AF%E5%8C%BA%E4%B8%89%E7%94%B02-3-7"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-rose-600 text-white px-6 py-3 rounded-lg hover:bg-rose-700 transition-colors duration-300 font-medium"
+            >
+              <Calendar size={20} />
+              カレンダーに追加
+            </a>
+          </div>
         </div>
 
         {/* 披露宴 */}
@@ -39,6 +51,18 @@ export const EventsSection: React.FC = () => {
               <p className="text-3xl font-bold text-rose-600 my-2">11:30</p>
               <p className="text-sm">受付時間 11:00</p>
             </div>
+          </div>
+
+          <div className="mt-6">
+            <a
+              href="https://calendar.google.com/calendar/event?action=TEMPLATE&text=%E6%8A%AB%E9%9C%B2%E5%AE%B4&dates=20251004T023000Z/20251004T063000Z&details=%E7%B6%B1%E7%94%BA%E4%B8%89%E4%BA%95%E5%80%B6%E6%A5%BD%E9%83%A8%E3%81%A7%E3%81%AE%E6%8A%AB%E9%9C%B2%E5%AE%B4%EF%BC%88%E5%8F%97%E4%BB%98%2011:00%EF%BC%89&location=%E7%B6%B1%E7%94%BA%E4%B8%89%E4%BA%95%E5%80%B6%E6%A5%BD%E9%83%A8%20%E3%80%92108-0073%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%AF%E5%8C%BA%E4%B8%89%E7%94%B02-3-7"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-rose-600 text-white px-6 py-3 rounded-lg hover:bg-rose-700 transition-colors duration-300 font-medium"
+            >
+              <Calendar size={20} />
+              カレンダーに追加
+            </a>
           </div>
         </div>
       </div>
