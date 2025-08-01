@@ -4,34 +4,48 @@ import M031 from "../assets/M031.jpg";
 import M061 from "../assets/M061.jpg";
 import M075 from "../assets/M075.jpg";
 import M077 from "../assets/M077.jpg";
-import M082 from "../assets/M082.jpg";
+import M002 from "../assets/M002.jpg";
+// import M082 from "../assets/M082.jpg";
+// import M041 from "../assets/M041.jpg";
 
 const slides = [
+  {
+    image: M002,
+    alt: "Wedding Photo M002",
+    device: ["pc", "sp"],
+    textColor: "#FBF5EA", // 白色
+  },
   {
     image: M031,
     alt: "Wedding Photo M031",
     device: ["pc", "sp"],
+    textColor: "#161821", // 白色
   },
   {
     image: M061,
     alt: "Wedding Photo M061",
     device: ["pc"],
+    textColor: "#161821", // 濃いグレー
   },
   {
     image: M075,
     alt: "Wedding Photo M075",
     device: ["pc", "sp"],
+    textColor: "#FBF5EA", // 白色
   },
   {
     image: M077,
     alt: "Wedding Photo M077",
     device: ["pc", "sp"],
+    textColor: "#FBF5EA", // 濃いグレー
   },
-  {
-    image: M082,
-    alt: "Wedding Photo M082",
-    device: ["pc", "sp"],
-  },
+
+  // {
+  //   image: M082,
+  //   alt: "Wedding Photo M082",
+  //   device: ["pc", "sp"],
+  //   textColor: "#FBF5EA", // 白色
+  // },
 ];
 
 export const ImageSlideshow: React.FC = () => {
@@ -130,7 +144,12 @@ export const ImageSlideshow: React.FC = () => {
 
       {/* テキストオーバーレイ */}
       <div className="absolute inset-0 flex items-center justify-center z-10">
-        <div className="text-center text-white px-4">
+        <div
+          className="text-center px-4"
+          style={{
+            color: filteredSlides[currentSlide]?.textColor || "#ffffff",
+          }}
+        >
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold mb-4 drop-shadow-2xl">
             Wedding Invitation
           </h1>
