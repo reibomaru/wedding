@@ -1,94 +1,119 @@
 import React, { useState } from "react";
-import { Plus, Trash2, Loader } from "lucide-react";
+import { Plus, Trash2, Loader, Search } from "lucide-react";
+import { useForm, useFieldArray } from "react-hook-form";
 import { RSVPService } from "../services/rsvpService";
-import type { RSVPFormData, CompanionData } from "../types/rsvp";
+import { AddressService } from "../services/addressService";
+import {
+  validatePhoneNumber,
+  formatPhoneNumber,
+} from "../utils/phoneValidation";
+import type { RSVPFormWithCompanions } from "../types/rsvp";
 
 export const RSVPSection: React.FC = () => {
-  const [formData, setFormData] = useState<RSVPFormData>({
-    attendance: "",
-    name: "",
-    kana: "",
-    postcode: "",
-    address: "",
-    building: "",
-    phone: "",
-    email: "",
-    allergy: "",
-    message: "",
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    watch,
+    control,
+  } = useForm<RSVPFormWithCompanions>({
+    defaultValues: {
+      attendance: "",
+      name: "",
+      kana: "",
+      postcode: "",
+      address: "",
+      building: "",
+      phone: "",
+      email: "",
+      allergy: "",
+      message: "",
+      companions: [],
+    },
   });
 
-  const [companions, setCompanions] = useState<CompanionData[]>([]);
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "companions",
+  });
+
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isLookingUpAddress, setIsLookingUpAddress] = useState(false);
 
-  const handleInputChange = (field: keyof RSVPFormData, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+  const watchedPostcode = watch("postcode");
+
+  const handlePostcodeChange = async (value: string) => {
+    // 郵便番号のフォーマット
+    const formatted = AddressService.formatPostcode(value);
+    setValue("postcode", formatted);
+  };
+
+  const handleManualAddressLookup = async () => {
+    if (!watchedPostcode) {
+      setSubmitError("郵便番号を入力してください。");
+      return;
+    }
+
+    const normalized = AddressService.normalizePostcode(watchedPostcode);
+    if (!AddressService.isValidPostcode(normalized)) {
+      setSubmitError("正しい郵便番号を入力してください（7桁）。");
+      return;
+    }
+
+    setSubmitError(null);
+    setIsLookingUpAddress(true);
+
+    try {
+      const addressData = await AddressService.lookupAddress(normalized);
+      if (addressData) {
+        setValue("postcode", addressData.postcode);
+        setValue("address", addressData.fullAddress);
+      } else {
+        setSubmitError("該当する住所が見つかりませんでした。");
+      }
+    } catch (error) {
+      console.error("Manual address lookup failed:", error);
+      setSubmitError(
+        "住所検索に失敗しました。しばらく経ってから再度お試しください。"
+      );
+    } finally {
+      setIsLookingUpAddress(false);
+    }
   };
 
   const addCompanion = () => {
-    if (companions.length < 5) {
-      setCompanions((prev) => [
-        ...prev,
-        {
-          id: Math.random().toString(36).substr(2, 9),
-          name: "",
-          kana: "",
-          allergy: "",
-        },
-      ]);
+    if (fields.length < 5) {
+      append({
+        name: "",
+        kana: "",
+        allergy: "",
+      });
     }
   };
 
-  const removeCompanion = (id: string) => {
-    setCompanions((prev) => prev.filter((c) => c.id !== id));
-  };
-
-  const updateCompanion = (
-    id: string,
-    field: keyof Omit<CompanionData, "id">,
-    value: string
-  ) => {
-    setCompanions((prev) =>
-      prev.map((c) => (c.id === id ? { ...c, [field]: value } : c))
-    );
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // バリデーション
-    if (!formData.attendance) {
-      setSubmitError("出欠をお選びください。");
-      return;
-    }
-
-    if (!formData.name || !formData.kana || !formData.email) {
-      setSubmitError("必須項目を入力してください。");
-      return;
-    }
-
+  const onSubmit = async (data: RSVPFormWithCompanions) => {
     setIsSubmitting(true);
     setSubmitError(null);
 
     try {
-      await RSVPService.saveRSVP(formData, companions);
+      await RSVPService.saveRSVP(data, data.companions);
       alert("出欠情報を登録いたしました。ありがとうございます。");
 
       // フォームをリセット
-      setFormData({
-        attendance: "",
-        name: "",
-        kana: "",
-        postcode: "",
-        address: "",
-        building: "",
-        phone: "",
-        email: "",
-        allergy: "",
-        message: "",
-      });
-      setCompanions([]);
+      setValue("attendance", "");
+      setValue("name", "");
+      setValue("kana", "");
+      setValue("postcode", "");
+      setValue("address", "");
+      setValue("building", "");
+      setValue("phone", "");
+      setValue("email", "");
+      setValue("allergy", "");
+      setValue("message", "");
+      setValue("companions", []);
       setAgreedToTerms(false);
     } catch (error) {
       console.error("RSVP submission error:", error);
@@ -125,19 +150,17 @@ export const RSVPSection: React.FC = () => {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-8">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
         {/* 出欠選択 */}
         <div>
           <div className="flex gap-8 justify-center mb-8">
             <label className="flex items-center gap-3 cursor-pointer">
               <input
                 type="radio"
-                name="attendance"
                 value="attend"
-                checked={formData.attendance === "attend"}
-                onChange={(e) =>
-                  handleInputChange("attendance", e.target.value)
-                }
+                {...register("attendance", {
+                  required: "出欠をお選びください",
+                })}
                 className="w-5 h-5 text-rose-600"
               />
               <span className="text-xl font-medium text-green-600">
@@ -147,12 +170,10 @@ export const RSVPSection: React.FC = () => {
             <label className="flex items-center gap-3 cursor-pointer">
               <input
                 type="radio"
-                name="attendance"
                 value="decline"
-                checked={formData.attendance === "decline"}
-                onChange={(e) =>
-                  handleInputChange("attendance", e.target.value)
-                }
+                {...register("attendance", {
+                  required: "出欠をお選びください",
+                })}
                 className="w-5 h-5 text-rose-600"
               />
               <span className="text-xl font-medium text-gray-600">
@@ -160,6 +181,11 @@ export const RSVPSection: React.FC = () => {
               </span>
             </label>
           </div>
+          {errors.attendance && (
+            <p className="text-center text-sm text-red-600">
+              {errors.attendance.message}
+            </p>
+          )}
         </div>
 
         <p className="text-sm text-gray-600">*は必須項目です</p>
@@ -172,12 +198,17 @@ export const RSVPSection: React.FC = () => {
             </label>
             <input
               type="text"
-              value={formData.name}
-              onChange={(e) => handleInputChange("name", e.target.value)}
-              className="input-field"
+              {...register("name", {
+                required: "名前を入力してください",
+              })}
+              className={`input-field ${
+                errors.name ? "border-red-500 focus:border-red-500" : ""
+              }`}
               placeholder="Name"
-              required
             />
+            {errors.name && (
+              <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
+            )}
           </div>
 
           <div>
@@ -186,12 +217,17 @@ export const RSVPSection: React.FC = () => {
             </label>
             <input
               type="text"
-              value={formData.kana}
-              onChange={(e) => handleInputChange("kana", e.target.value)}
-              className="input-field"
+              {...register("kana", {
+                required: "かなを入力してください",
+              })}
+              className={`input-field ${
+                errors.kana ? "border-red-500 focus:border-red-500" : ""
+              }`}
               placeholder="Kana"
-              required
             />
+            {errors.kana && (
+              <p className="mt-1 text-sm text-red-600">{errors.kana.message}</p>
+            )}
           </div>
         </div>
 
@@ -200,14 +236,48 @@ export const RSVPSection: React.FC = () => {
           <label className="block text-sm font-medium text-gray-700 mb-2">
             〒 <span className="text-red-500">*</span>
           </label>
-          <input
-            type="text"
-            value={formData.postcode}
-            onChange={(e) => handleInputChange("postcode", e.target.value)}
-            className="input-field"
-            placeholder="Postcode"
-            required
-          />
+          <div className="flex gap-2">
+            <div className="relative flex-1">
+              <input
+                type="text"
+                {...register("postcode", {
+                  required: "郵便番号を入力してください",
+                })}
+                onChange={(e) => handlePostcodeChange(e.target.value)}
+                className={`input-field ${
+                  errors.postcode ? "border-red-500 focus:border-red-500" : ""
+                }`}
+                placeholder="例：123-4567"
+                maxLength={8}
+              />
+              {isLookingUpAddress && (
+                <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                  <Loader className="w-4 h-4 animate-spin text-gray-400" />
+                </div>
+              )}
+            </div>
+            <button
+              type="button"
+              onClick={handleManualAddressLookup}
+              disabled={isLookingUpAddress || !watchedPostcode}
+              className="px-4 py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors duration-200 flex items-center gap-2 whitespace-nowrap"
+            >
+              {isLookingUpAddress ? (
+                <Loader className="w-4 h-4 animate-spin" />
+              ) : (
+                <Search className="w-4 h-4" />
+              )}
+              住所検索
+            </button>
+          </div>
+          {errors.postcode && (
+            <p className="mt-1 text-sm text-red-600">
+              {errors.postcode.message}
+            </p>
+          )}
+          <p className="text-xs text-gray-500 mt-1">
+            郵便番号を入力すると自動補完されます。または住所検索ボタンをクリックしてください。
+          </p>
         </div>
 
         <div>
@@ -216,12 +286,19 @@ export const RSVPSection: React.FC = () => {
           </label>
           <input
             type="text"
-            value={formData.address}
-            onChange={(e) => handleInputChange("address", e.target.value)}
-            className="input-field"
+            {...register("address", {
+              required: "住所を入力してください",
+            })}
+            className={`input-field ${
+              errors.address ? "border-red-500 focus:border-red-500" : ""
+            }`}
             placeholder="Address"
-            required
           />
+          {errors.address && (
+            <p className="mt-1 text-sm text-red-600">
+              {errors.address.message}
+            </p>
+          )}
         </div>
 
         <div>
@@ -230,8 +307,7 @@ export const RSVPSection: React.FC = () => {
           </label>
           <input
             type="text"
-            value={formData.building}
-            onChange={(e) => handleInputChange("building", e.target.value)}
+            {...register("building")}
             className="input-field"
             placeholder="Building"
           />
@@ -245,12 +321,24 @@ export const RSVPSection: React.FC = () => {
             </label>
             <input
               type="tel"
-              value={formData.phone}
-              onChange={(e) => handleInputChange("phone", e.target.value)}
-              className="input-field"
-              placeholder="Phone number"
-              required
+              {...register("phone", {
+                required: "電話番号を入力してください",
+                validate: validatePhoneNumber,
+              })}
+              onChange={(e) => {
+                const formatted = formatPhoneNumber(e.target.value);
+                setValue("phone", formatted);
+              }}
+              className={`input-field ${
+                errors.phone ? "border-red-500 focus:border-red-500" : ""
+              }`}
+              placeholder="例: 090-1234-5678"
             />
+            {errors.phone && (
+              <p className="mt-1 text-sm text-red-600">
+                {errors.phone.message}
+              </p>
+            )}
           </div>
 
           <div>
@@ -259,12 +347,23 @@ export const RSVPSection: React.FC = () => {
             </label>
             <input
               type="email"
-              value={formData.email}
-              onChange={(e) => handleInputChange("email", e.target.value)}
-              className="input-field"
+              {...register("email", {
+                required: "メールアドレスを入力してください",
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "有効なメールアドレスを入力してください",
+                },
+              })}
+              className={`input-field ${
+                errors.email ? "border-red-500 focus:border-red-500" : ""
+              }`}
               placeholder="Email Address"
-              required
             />
+            {errors.email && (
+              <p className="mt-1 text-sm text-red-600">
+                {errors.email.message}
+              </p>
+            )}
           </div>
         </div>
 
@@ -274,8 +373,7 @@ export const RSVPSection: React.FC = () => {
             アレルギー
           </label>
           <textarea
-            value={formData.allergy}
-            onChange={(e) => handleInputChange("allergy", e.target.value)}
+            {...register("allergy")}
             className="input-field"
             placeholder="Allergy"
             rows={3}
@@ -287,8 +385,7 @@ export const RSVPSection: React.FC = () => {
             メッセージ
           </label>
           <textarea
-            value={formData.message}
-            onChange={(e) => handleInputChange("message", e.target.value)}
+            {...register("message")}
             className="input-field"
             placeholder="Message"
             rows={4}
@@ -304,7 +401,7 @@ export const RSVPSection: React.FC = () => {
             <button
               type="button"
               onClick={addCompanion}
-              disabled={companions.length >= 5}
+              disabled={fields.length >= 5}
               className="flex items-center gap-2 text-rose-600 hover:text-rose-700 disabled:text-gray-400"
             >
               <Plus size={16} />
@@ -312,15 +409,15 @@ export const RSVPSection: React.FC = () => {
             </button>
           </div>
 
-          {companions.map((companion, index) => (
-            <div key={companion.id} className="mb-8">
+          {fields.map((field, index) => (
+            <div key={field.id} className="mb-8">
               <div className="flex items-center justify-between mb-4">
                 <h4 className="font-medium text-gray-700 text-lg">
                   お連れ様 {index + 1}
                 </h4>
                 <button
                   type="button"
-                  onClick={() => removeCompanion(companion.id)}
+                  onClick={() => remove(index)}
                   className="text-red-500 hover:text-red-700"
                 >
                   <Trash2 size={16} />
@@ -330,29 +427,20 @@ export const RSVPSection: React.FC = () => {
               <div className="grid md:grid-cols-2 gap-4 mb-4">
                 <input
                   type="text"
-                  value={companion.name}
-                  onChange={(e) =>
-                    updateCompanion(companion.id, "name", e.target.value)
-                  }
+                  {...register(`companions.${index}.name` as const)}
                   className="input-field"
                   placeholder="お名前"
                 />
                 <input
                   type="text"
-                  value={companion.kana}
-                  onChange={(e) =>
-                    updateCompanion(companion.id, "kana", e.target.value)
-                  }
+                  {...register(`companions.${index}.kana` as const)}
                   className="input-field"
                   placeholder="おなまえ（かな）"
                 />
               </div>
 
               <textarea
-                value={companion.allergy}
-                onChange={(e) =>
-                  updateCompanion(companion.id, "allergy", e.target.value)
-                }
+                {...register(`companions.${index}.allergy` as const)}
                 className="input-field"
                 placeholder="アレルギー"
                 rows={2}
@@ -360,7 +448,7 @@ export const RSVPSection: React.FC = () => {
             </div>
           ))}
 
-          {companions.length > 0 && (
+          {fields.length > 0 && (
             <p className="text-sm text-gray-500 mb-6">
               一度に登録できるお連れ様は5名までです。
               <br />

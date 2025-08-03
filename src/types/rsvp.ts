@@ -12,10 +12,14 @@ export type RSVPFormData = {
 };
 
 export type CompanionData = {
-  id: string;
+  id?: string;
   name: string;
   kana: string;
   allergy: string;
+};
+
+export type RSVPFormWithCompanions = RSVPFormData & {
+  companions: CompanionData[];
 };
 
 export type FirestoreRSVPData = {
