@@ -19,39 +19,33 @@ export const EventsSection: React.FC = () => {
 
   return (
     <section id="events" className="section-container">
-      <h2 className="heading-main text-center">Information</h2>
+      <h2 className="heading-main text-center">Events</h2>
 
       <div className="grid md:grid-cols-2 gap-12 mb-16">
         {/* 挙式 */}
         <div className="text-center">
-          <h3 className="text-2xl font-serif font-semibold text-gray-800 mb-6">
+          <h3 className="text-xl font-serif font-semibold text-gray-800 mb-6">
             挙式
-            <span className="text-lg font-normal block text-gray-600 mt-1">
-              WEDDING CEREMONY
-            </span>
           </h3>
 
           <div className="space-y-3 text-gray-700">
             <div>
-              <p className="font-medium text-lg">2025.10.04 Sat</p>
-              <p className="text-3xl font-bold text-rose-600 my-2">10:30</p>
+              <p className="font-medium text-base">2025.10.04 Sat</p>
+              <p className="text-2xl font-bold text-rose-600 my-2">10:30</p>
             </div>
           </div>
         </div>
 
         {/* 披露宴 */}
         <div className="text-center">
-          <h3 className="text-2xl font-serif font-semibold text-gray-800 mb-6">
+          <h3 className="text-xl font-serif font-semibold text-gray-800 mb-6">
             披露宴
-            <span className="text-lg font-normal block text-gray-600 mt-1">
-              WEDDING RECEPTION
-            </span>
           </h3>
 
           <div className="space-y-3 text-gray-700">
             <div>
-              <p className="font-medium text-lg">2025.10.04 Sat</p>
-              <p className="text-3xl font-bold text-rose-600 my-2">11:30</p>
+              <p className="font-medium text-base">2025.10.04 Sat</p>
+              <p className="text-2xl font-bold text-rose-600 my-2">11:30</p>
               <p className="text-sm">受付時間 11:00</p>
             </div>
           </div>
@@ -60,34 +54,44 @@ export const EventsSection: React.FC = () => {
 
       {/* 会場情報 */}
       <div className="text-center">
-        <h3 className="text-2xl font-serif font-semibold text-gray-800 mb-8">
+        <h3 className="text-xl font-serif font-semibold text-gray-800 mb-6">
           会場
         </h3>
 
         <div className="space-y-6">
           <div>
-            <h4 className="font-bold text-3xl text-rose-600 mb-4">
+            <h4 className="font-bold text-2xl text-rose-600 mb-4">
               綱町三井倶楽部
             </h4>
           </div>
 
           <div className="flex items-center justify-center gap-3 mb-4">
             <MapPin className="text-gray-500 flex-shrink-0" size={20} />
-            <p className="text-gray-700 text-lg">
+            <p className="text-gray-700 text-base">
               〒108-0073 東京都港区三田2-3-7
             </p>
           </div>
 
-          <div className="flex items-center justify-center gap-3 mb-8">
-            <ExternalLink className="text-gray-500 flex-shrink-0" size={20} />
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <ExternalLink className="text-gray-500 flex-shrink-0" size={16} />
             <a
               href="https://www.tsunamachimitsuiclub.co.jp/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-rose-600 hover:text-rose-700 underline text-lg"
+              className="text-rose-600 hover:text-rose-700 underline text-sm md:text-base break-all"
             >
-              https://www.tsunamachimitsuiclub.co.jp/
+              tsunamachimitsuiclub.co.jp
             </a>
+          </div>
+
+          {/* アクセス情報 */}
+          <div className="bg-gray-50 p-4 rounded-lg mb-6">
+            <h5 className="font-semibold text-gray-800 mb-3 text-base">アクセス</h5>
+            <div className="space-y-2 text-sm text-gray-700">
+              <p><strong>最寄駅：</strong>都営三田線・都営浅草線「三田駅」A9出口より徒歩2分</p>
+              <p><strong>JR線：</strong>JR山手線・京浜東北線「田町駅」三田口(西口)より徒歩8分</p>
+              <p><strong>地下鉄：</strong>東京メトロ南北線・都営三田線「白金高輪駅」1番出口より徒歩10分</p>
+            </div>
           </div>
 
           {/* Google Map埋め込み */}
