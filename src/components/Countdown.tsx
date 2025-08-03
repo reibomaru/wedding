@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 
-interface CountdownProps {
+type CountdownProps = {
   targetDate: Date;
-}
+};
 
-interface TimeLeft {
+type TimeLeft = {
   days: number;
   hours: number;
   minutes: number;
   seconds: number;
-}
+};
 
 export const Countdown: React.FC<CountdownProps> = ({ targetDate }) => {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({

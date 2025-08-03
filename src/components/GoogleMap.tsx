@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { APIProvider, Map, AdvancedMarker } from "@vis.gl/react-google-maps";
 
-interface GoogleMapProps {
+type GoogleMapProps = {
   address: string;
   venueName: string;
   lat: number;
   lng: number;
   className?: string;
-}
+};
 
 export const GoogleMap: React.FC<GoogleMapProps> = ({
   address,

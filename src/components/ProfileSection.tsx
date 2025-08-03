@@ -1,4 +1,5 @@
 import React from "react";
+import { ProfilePhoto } from "./ProfilePhoto";
 
 export const ProfileSection: React.FC = () => {
   return (
@@ -8,9 +9,17 @@ export const ProfileSection: React.FC = () => {
       <div className="grid md:grid-cols-2 gap-16">
         {/* 新郎 */}
         <div className="text-center">
-          <h3 className="text-3xl font-serif font-semibold text-gray-800 mb-2">
+          <h3 className="text-3xl font-serif font-semibold text-gray-800 mb-6">
             新郎
           </h3>
+
+          {/* プロフィール写真 */}
+          <ProfilePhoto
+            mainPhoto="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face"
+            hoverPhoto="https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?w=400&h=400&fit=crop&crop=face"
+            alt="杉浦 伶のプロフィール写真"
+            name="新郎"
+          />
 
           <div className="space-y-4 text-gray-700">
             <div>
@@ -42,9 +51,17 @@ export const ProfileSection: React.FC = () => {
 
         {/* 新婦 */}
         <div className="text-center">
-          <h3 className="text-3xl font-serif font-semibold text-gray-800 mb-2">
+          <h3 className="text-3xl font-serif font-semibold text-gray-800 mb-6">
             新婦
           </h3>
+
+          {/* プロフィール写真 */}
+          <ProfilePhoto
+            mainPhoto="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=400&fit=crop&crop=face"
+            hoverPhoto="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face"
+            alt="田中 陽子のプロフィール写真"
+            name="新婦"
+          />
 
           <div className="space-y-4 text-gray-700">
             <div>

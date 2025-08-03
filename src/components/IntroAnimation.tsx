@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 
-interface IntroAnimationProps {
+type IntroAnimationProps = {
   onComplete: () => void;
-}
+};
 
 export const IntroAnimation: React.FC<IntroAnimationProps> = ({
   onComplete,
