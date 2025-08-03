@@ -8,6 +8,7 @@ import {
   validatePhoneNumber,
   formatPhoneNumber,
 } from "../utils/phoneValidation";
+import { validatePostcode } from "../utils/validation";
 import type { RSVPFormWithCompanions } from "../types/rsvp";
 
 export const RSVPSection: React.FC = () => {
@@ -209,7 +210,7 @@ export const RSVPSection: React.FC = () => {
               className={`input-field ${
                 errors.name ? "border-red-500 focus:border-red-500" : ""
               }`}
-              placeholder="Name"
+              placeholder="お名前"
             />
             {errors.name && (
               <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
@@ -228,7 +229,7 @@ export const RSVPSection: React.FC = () => {
               className={`input-field ${
                 errors.kana ? "border-red-500 focus:border-red-500" : ""
               }`}
-              placeholder="Kana"
+              placeholder="おなまえ（かな）"
             />
             {errors.kana && (
               <p className="mt-1 text-sm text-red-600">{errors.kana.message}</p>
@@ -247,6 +248,7 @@ export const RSVPSection: React.FC = () => {
                 type="text"
                 {...register("postcode", {
                   required: "郵便番号を入力してください",
+                  validate: validatePostcode,
                 })}
                 onChange={(e) => handlePostcodeChange(e.target.value)}
                 className={`input-field ${
@@ -297,7 +299,7 @@ export const RSVPSection: React.FC = () => {
             className={`input-field ${
               errors.address ? "border-red-500 focus:border-red-500" : ""
             }`}
-            placeholder="Address"
+            placeholder="ご住所"
           />
           {errors.address && (
             <p className="mt-1 text-sm text-red-600">
@@ -314,7 +316,7 @@ export const RSVPSection: React.FC = () => {
             type="text"
             {...register("building")}
             className="input-field"
-            placeholder="Building"
+            placeholder="建物名・部屋番号"
           />
         </div>
 
@@ -362,7 +364,7 @@ export const RSVPSection: React.FC = () => {
               className={`input-field ${
                 errors.email ? "border-red-500 focus:border-red-500" : ""
               }`}
-              placeholder="Email Address"
+              placeholder="メールアドレス"
             />
             {errors.email && (
               <p className="mt-1 text-sm text-red-600">
@@ -380,7 +382,7 @@ export const RSVPSection: React.FC = () => {
           <textarea
             {...register("allergy")}
             className="input-field"
-            placeholder="Allergy"
+            placeholder="アレルギー"
             rows={3}
           />
         </div>
@@ -392,7 +394,7 @@ export const RSVPSection: React.FC = () => {
           <textarea
             {...register("message")}
             className="input-field"
-            placeholder="Message"
+            placeholder="メッセージ"
             rows={4}
           />
         </div>
@@ -491,7 +493,7 @@ export const RSVPSection: React.FC = () => {
           </label>
         </div>
 
-        <div className="text-center">
+        <div className="flex justify-center">
           <button
             type="submit"
             className="btn-primary px-12 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2"
