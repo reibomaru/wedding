@@ -84,7 +84,7 @@ export const GoogleMap: React.FC<GoogleMapProps> = ({
   const mapOptions = {
     mapId: "wedding-venue-map",
     defaultCenter: { lat, lng },
-    zoom: 16,
+    defaultZoom: 16,
     gestureHandling: "cooperative" as const,
     fullscreenControl: true,
     streetViewControl: true,
