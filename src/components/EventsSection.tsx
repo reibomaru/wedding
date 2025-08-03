@@ -1,6 +1,7 @@
 import React from "react";
 import { MapPin, ExternalLink, Calendar } from "lucide-react";
 import { GoogleMap } from "./GoogleMap";
+import { FacilitySlideshow } from "./FacilitySlideshow";
 
 export const EventsSection: React.FC = () => {
   // 綱町三井倶楽部の座標
@@ -19,7 +20,7 @@ export const EventsSection: React.FC = () => {
 
   return (
     <section id="events" className="section-container">
-      <h2 className="heading-main text-center">Events</h2>
+      <h2 className="heading-main text-center">Information</h2>
 
       <div className="grid md:grid-cols-2 gap-12 mb-16">
         {/* 挙式 */}
@@ -63,6 +64,11 @@ export const EventsSection: React.FC = () => {
             <h4 className="font-bold text-2xl text-rose-600 mb-4">
               綱町三井倶楽部
             </h4>
+          </div>
+
+          {/* 会場スライドショー */}
+          <div className="mb-6">
+            <FacilitySlideshow className="h-64 md:h-96 w-full" />
           </div>
 
           <div className="flex items-center justify-center gap-3 mb-4">

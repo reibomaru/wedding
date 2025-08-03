@@ -9,7 +9,7 @@ export const Navigation: React.FC = () => {
     { id: "message", label: "Message" },
     { id: "profile", label: "Profile" },
     { id: "countdown", label: "Countdown" },
-    { id: "events", label: "Events" },
+    { id: "events", label: "Information" },
     { id: "rsvp", label: "RSVP" },
   ];
 
