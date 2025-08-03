@@ -147,7 +147,7 @@ export const EventsSection: React.FC = () => {
               lng={venueLocation.lng}
               venueName={venueLocation.name}
               address={venueLocation.address}
-              className="h-64 md:h-80 w-full"
+              className="h-64 md:h-96 w-full"
             />
           </div>
 
