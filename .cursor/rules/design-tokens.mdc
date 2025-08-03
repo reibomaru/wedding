@@ -1,0 +1,124 @@
+# デザイントークン仕様書
+
+デジタル庁デザインシステムに準拠した、結婚式招待状サイト用のデザイントークン定義です。
+
+## カラーパレット
+
+### プライマリカラー（Rose）
+
+カスタム rose パレットを[tailwind.config.js](mdc:tailwind.config.js)で定義：
+
+```javascript
+rose: {
+  50: "#fef7f3",   // 最も薄い背景色
+  100: "#fceee6",  // 薄い背景色
+  200: "#f8ddd0",  // セカンダリ背景
+  300: "#f3c5ae",  // ボーダー色
+  400: "#eca184",  // 無効状態
+  500: "#e5815d",  // プライマリ
+  600: "#d56342",  // プライマリホバー
+  700: "#b64d31",  // アクセント
+  800: "#923f2c",  // 強調テキスト
+  900: "#783729",  // 最も濃い色
+}
+```
+
+### グレースケール
+
+Tailwind 標準の gray パレットを使用：
+
+- `gray-50`: 薄い背景（フォーム背景など）
+- `gray-100`: セクション区切り
+- `gray-300`: ボーダー色
+- `gray-600`: セカンダリテキスト
+- `gray-700`: ボディテキスト
+- `gray-800`: ヘッダーテキスト
+
+## タイポグラフィ
+
+### フォントファミリー
+
+```css
+font-serif: ["Noto Serif JP", "serif"]    // メインテキスト・ヘッダー
+font-sans: ["Noto Sans JP", "sans-serif"] // UI要素・フォーム
+```
+
+### テキストスケール
+
+- `text-3xl md:text-4xl`: メインヘッダー
+- `text-2xl`: セクションヘッダー
+- `text-lg`: サブヘッダー
+- `text-base`: ボディテキスト
+- `text-sm`: キャプション・補足
+
+## スペーシング
+
+### コンテナ
+
+- `max-w-4xl`: メインコンテンツ幅
+- `px-4`: 水平パディング
+- `py-12`: セクション垂直スペース
+
+### コンポーネント内
+
+- `mb-8`: ヘッダー下マージン
+- `mb-6`: セクション内要素マージン
+- `gap-4`: グリッドギャップ
+
+## カスタムクラス定義
+
+[src/index.css](mdc:src/index.css)で定義されたコンポーネントクラス：
+
+### レイアウト
+
+```css
+.section-container {
+  @apply max-w-4xl mx-auto px-4 py-12;
+}
+```
+
+### テキストスタイル
+
+```css
+.heading-main {
+  @apply text-3xl md:text-4xl font-serif font-semibold text-gray-800 mb-8;
+}
+
+.text-elegant {
+  @apply font-serif text-gray-700 leading-relaxed;
+}
+```
+
+### インタラクティブ要素
+
+```css
+.btn-primary {
+  @apply bg-rose-500 hover:bg-rose-600 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200;
+}
+
+.input-field {
+  @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-300 focus:border-rose-500 outline-none transition-colors;
+}
+```
+
+## 使用ガイドライン
+
+### 色の使用規則
+
+1. **rose-500**: プライマリボタン、リンク
+2. **rose-600**: ホバー状態
+3. **gray-800**: メインテキスト
+4. **gray-600**: セカンダリテキスト
+5. **gray-300**: ボーダー・区切り線
+
+### レスポンシブ対応
+
+- モバイルファースト設計
+- `md:`プレフィックスで 768px 以上対応
+- グリッドは`md:grid-cols-2`形式
+
+### アクセシビリティ
+
+- コントラスト比 4.5:1 以上確保
+- フォーカス可視化（ring-2 ring-rose-300）
+- 最小タッチターゲット 44px 確保

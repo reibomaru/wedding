@@ -1,0 +1,77 @@
+---
+alwaysApply: true
+description: Wedding Invitation Design System Overview
+---
+
+# 結婚式招待状 デザインシステム v1.0
+
+デジタル庁のデザインシステムガイドラインに基づき、「誰一人取り残されない、人に優しいデジタル化」の理念を結婚式招待状サイトに適用したデザインシステム定義です。
+
+## デザイン理念
+
+### 🎯 ミッション
+
+「すべてのゲストが快適に使える、エレガントで心温まる結婚式招待状体験を提供する」
+
+### 🌟 デザイン原則
+
+1. **アクセシビリティファースト** - あらゆる年代・状況のゲストが利用可能
+2. **エレガンス** - 結婚式にふさわしい上品で洗練されたデザイン
+3. **レスポンシブ** - モバイル・デスクトップ両対応
+4. **直感性** - 迷わず使える明確なナビゲーション
+5. **一貫性** - 統一されたデザイン言語
+
+## アーキテクチャ
+
+### 技術スタック
+
+- **Framework**: React 19.1.0 + TypeScript 5.8.3
+- **Styling**: Tailwind CSS 4.1.11 (Vite Plugin)
+- **Build**: Vite 7.0.4
+- **Fonts**: Noto Serif JP / Noto Sans JP
+- **Icons**: lucide-react 0.526.0
+
+### ファイル構成
+
+- **デザイントークン**: [tailwind.config.js](mdc:tailwind.config.js)
+- **コンポーネントスタイル**: [src/index.css](mdc:src/index.css)
+- **コンポーネント**: [src/components/](mdc:src/components/)
+
+## コアコンポーネント
+
+### レイアウト
+
+- **[WeddingInvitation.tsx](mdc:src/components/WeddingInvitation.tsx)** - ルートコンテナ
+- **[Navigation.tsx](mdc:src/components/Navigation.tsx)** - グローバルナビゲーション
+
+### セクション
+
+- **[MessageSection.tsx](mdc:src/components/MessageSection.tsx)** - 招待メッセージ
+- **[ProfileSection.tsx](mdc:src/components/ProfileSection.tsx)** - プロフィール表示
+- **[EventsSection.tsx](mdc:src/components/EventsSection.tsx)** - イベント詳細
+- **[RSVPSection.tsx](mdc:src/components/RSVPSection.tsx)** - 出欠確認フォーム
+
+### インタラクティブ
+
+- **[ImageSlideshow.tsx](mdc:src/components/ImageSlideshow.tsx)** - 画像スライドショー
+- **[Countdown.tsx](mdc:src/components/Countdown.tsx)** - カウントダウンタイマー
+- **[GoogleMap.tsx](mdc:src/components/GoogleMap.tsx)** - 会場マップ
+
+## 使用ガイドライン
+
+### 新規コンポーネント作成時
+
+1. TypeScript Strict Mode 準拠
+2. アクセシビリティ属性必須（aria-label 等）
+3. モバイルファースト設計
+4. カスタムクラス活用（.section-container 等）
+5. エラーハンドリング実装
+
+### スタイリング規則
+
+1. Tailwind CSS クラス優先
+2. カスタム CSS は@layer components で定義
+3. 色は rose パレット使用
+4. フォントは Noto Serif JP 優先
+
+このデザインシステムを遵守することで、統一感のある高品質な結婚式招待状サイトを構築します。

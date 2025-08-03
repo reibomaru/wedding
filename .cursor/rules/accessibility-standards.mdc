@@ -1,0 +1,264 @@
+# アクセシビリティ標準
+
+デジタル庁の「誰一人取り残されない」理念に基づく、結婚式招待状サイトのアクセシビリティ基準です。
+
+## WCAG 2.1 AA 準拠基準
+
+### 1. 知覚可能性（Perceivable）
+
+#### 色とコントラスト
+
+- **テキストコントラスト比**: 4.5:1 以上
+- **大きなテキスト**: 3:1 以上
+- **色のみに依存しない情報伝達**
+
+```typescript
+// 良い例：アイコン + 色 + テキスト
+<div className="flex items-center gap-2 text-red-700">
+  <AlertTriangle size={16} />
+  <span>エラーが発生しました</span>
+</div>
+
+// 悪い例：色のみで状態表現
+<div className="text-red-500">エラー</div>
+```
+
+#### 画像とメディア
+
+- すべての画像に`alt`属性必須
+- 装飾画像は`alt=""`
+- 情報を持つ画像は説明的な alt
+
+```typescript
+// 情報を持つ画像
+<img
+  src="venue.jpg"
+  alt="綱町三井倶楽部の外観、白い洋館建築"
+  className="w-full h-64 object-cover"
+/>
+
+// 装飾画像
+<img
+  src="decoration.jpg"
+  alt=""
+  role="presentation"
+/>
+```
+
+### 2. 操作可能性（Operable）
+
+#### キーボードナビゲーション
+
+- すべてのインタラクティブ要素がキーボードでアクセス可能
+- `Tab`順序が論理的
+- フォーカス表示が明確
+
+```typescript
+// キーボード対応の例
+const NavigationItem: React.FC<Props> = ({ onClick, children }) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onClick();
+    }
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      onKeyDown={handleKeyDown}
+      className="focus:ring-2 focus:ring-rose-300 focus:outline-none"
+      tabIndex={0}
+    >
+      {children}
+    </button>
+  );
+};
+```
+
+#### フォーカス管理
+
+```typescript
+// フォーカス表示の統一スタイル
+.focus-visible {
+  @apply ring-2 ring-rose-300 ring-offset-2 outline-none;
+}
+```
+
+### 3. 理解可能性（Understandable）
+
+#### フォームアクセシビリティ
+
+- ラベルとフィールドの明確な関連付け
+- エラーメッセージの適切な表示
+- 必須フィールドの明示
+
+```typescript
+// アクセシブルなフォーム例
+const AccessibleForm: React.FC = () => {
+  const [error, setError] = useState<string | null>(null);
+
+  return (
+    <div className="space-y-4">
+      <label htmlFor="guest-name" className="block text-gray-700 font-medium">
+        お名前 <span className="text-red-500">*</span>
+      </label>
+      <input
+        id="guest-name"
+        type="text"
+        required
+        aria-required="true"
+        aria-invalid={!!error}
+        aria-describedby={error ? "name-error" : "name-help"}
+        className="input-field"
+      />
+      <div id="name-help" className="text-sm text-gray-600">
+        姓と名を含めてご記入ください
+      </div>
+      {error && (
+        <div id="name-error" role="alert" className="text-red-700 text-sm">
+          {error}
+        </div>
+      )}
+    </div>
+  );
+};
+```
+
+#### セマンティック HTML
+
+```typescript
+// 適切な見出し階層
+<main>
+  <h1>結婚式招待状</h1>
+  <section>
+    <h2>プロフィール</h2>
+    <article>
+      <h3>新郎</h3>
+      {/* 内容 */}
+    </article>
+    <article>
+      <h3>新婦</h3>
+      {/* 内容 */}
+    </article>
+  </section>
+</main>
+```
+
+### 4. 堅牢性（Robust）
+
+#### ARIA 属性の適切な使用
+
+```typescript
+// ナビゲーション
+<nav aria-label="メインナビゲーション">
+  <ul role="list">
+    <li><a href="#message" aria-current="page">メッセージ</a></li>
+    <li><a href="#profile">プロフィール</a></li>
+  </ul>
+</nav>
+
+// 状態表示
+<div
+  role="status"
+  aria-live="polite"
+  aria-label="カウントダウンタイマー"
+>
+  結婚式まであと {days} 日
+</div>
+
+// モーダル
+<div
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modal-title"
+  aria-describedby="modal-description"
+>
+  <h2 id="modal-title">確認</h2>
+  <p id="modal-description">送信してもよろしいですか？</p>
+</div>
+```
+
+## レスポンシブアクセシビリティ
+
+### モバイル対応
+
+- 最小タッチターゲット: 44px × 44px
+- ピンチズーム対応
+- 横向き・縦向き両対応
+
+```typescript
+// タッチターゲットの確保
+<button className="min-h-[44px] min-w-[44px] p-3">送信</button>
+```
+
+### 読み上げソフト対応
+
+```typescript
+// スクリーンリーダー専用テキスト
+<span className="sr-only">
+  新しいタブで開きます
+</span>
+
+// 読み上げ順序の制御
+<div aria-hidden="true">装飾要素</div>
+```
+
+## テスト項目チェックリスト
+
+### 自動テスト
+
+- [ ] eslint-plugin-jsx-a11y 使用
+- [ ] 色コントラスト自動チェック
+- [ ] 見出し階層の検証
+
+### 手動テスト
+
+- [ ] キーボードのみでの操作確認
+- [ ] スクリーンリーダーでの読み上げ確認
+- [ ] 拡大（200%）での表示確認
+- [ ] モバイルでのアクセシビリティ確認
+
+## 実装例
+
+### アクセシブルなスライドショー
+
+```typescript
+const AccessibleSlideshow: React.FC = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  return (
+    <div
+      role="region"
+      aria-label="結婚式の写真スライドショー"
+      className="relative"
+    >
+      <div aria-live="polite" aria-atomic="true" className="sr-only">
+        {slides.length}枚中{currentSlide + 1}枚目の写真を表示中
+      </div>
+
+      <img
+        src={slides[currentSlide].src}
+        alt={slides[currentSlide].alt}
+        className="w-full h-64 object-cover"
+      />
+
+      <div className="flex justify-center mt-4 gap-2">
+        {slides.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentSlide(index)}
+            aria-label={`${index + 1}枚目の写真を表示`}
+            className={`w-3 h-3 rounded-full focus:ring-2 focus:ring-rose-300 ${
+              index === currentSlide ? "bg-rose-500" : "bg-gray-300"
+            }`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+```
+
+これらの基準を満たすことで、すべてのゲストが快適に利用できる結婚式招待状サイトを実現します。

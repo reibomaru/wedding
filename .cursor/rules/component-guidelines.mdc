@@ -1,0 +1,207 @@
+# コンポーネント設計ガイドライン
+
+デジタル庁のアクセシビリティファースト設計を結婚式招待状サイトに適用したコンポーネント開発規則です。
+
+## 基本設計原則
+
+### 1. アクセシビリティ必須項目
+
+すべてのコンポーネントで以下を実装：
+
+```typescript
+// 例：ボタンコンポーネント
+<button
+  aria-label="明確な説明"
+  role="button"
+  tabIndex={0}
+  onKeyDown={handleKeyDown}
+  className="focus:ring-2 focus:ring-rose-300"
+>
+```
+
+### 2. TypeScript Strict Mode
+
+- すべての props に型定義必須
+- 任意プロパティは`?`で明示
+- Union タイプを積極活用
+
+```typescript
+interface ComponentProps {
+  title: string;
+  variant?: "primary" | "secondary";
+  onClick?: () => void;
+  children?: React.ReactNode;
+}
+```
+
+### 3. レスポンシブ設計
+
+モバイルファースト + デスクトップ対応：
+
+```typescript
+// 推奨パターン
+className = "grid grid-cols-1 md:grid-cols-2 gap-4";
+className = "text-sm md:text-base";
+className = "p-4 md:p-6";
+```
+
+## コンポーネントカテゴリ
+
+### レイアウトコンポーネント
+
+固定スタイル + カスタムクラス使用：
+
+```typescript
+// セクションコンテナ例
+const SectionComponent: React.FC<Props> = ({ children, className = "" }) => {
+  return (
+    <section className={`section-container ${className}`}>{children}</section>
+  );
+};
+```
+
+### インタラクティブコンポーネント
+
+ユーザー操作に対する適切なフィードバック：
+
+```typescript
+// フォーム要素例
+const [isLoading, setIsLoading] = useState(false);
+const [error, setError] = useState<string | null>(null);
+
+return (
+  <input
+    className="input-field"
+    disabled={isLoading}
+    aria-invalid={!!error}
+    aria-describedby={error ? "error-message" : undefined}
+  />
+);
+```
+
+### 表示コンポーネント
+
+情報の階層化と読みやすさ重視：
+
+```typescript
+// 情報表示例
+<div className="space-y-4">
+  <h2 className="heading-main">セクションタイトル</h2>
+  <p className="text-elegant">エレガントなテキスト表示</p>
+</div>
+```
+
+## エラーハンドリング
+
+### 1. ユーザーフレンドリーなエラー表示
+
+```typescript
+const ErrorMessage: React.FC<{ message: string }> = ({ message }) => (
+  <div
+    role="alert"
+    className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg"
+  >
+    {message}
+  </div>
+);
+```
+
+### 2. 読み込み状態の表示
+
+```typescript
+const LoadingSpinner: React.FC = () => (
+  <div
+    role="status"
+    aria-label="読み込み中"
+    className="animate-spin h-6 w-6 border-2 border-rose-500"
+  >
+    <span className="sr-only">読み込み中...</span>
+  </div>
+);
+```
+
+## パフォーマンス最適化
+
+### 1. 遅延読み込み
+
+大きなコンポーネントは React.lazy 使用：
+
+```typescript
+const HeavyComponent = React.lazy(() => import("./HeavyComponent"));
+
+// 使用時
+<Suspense fallback={<LoadingSpinner />}>
+  <HeavyComponent />
+</Suspense>;
+```
+
+### 2. メモ化
+
+頻繁な再レンダリングを防ぐ：
+
+```typescript
+const MemoizedComponent = React.memo<Props>(({ data }) => {
+  const processedData = useMemo(() => expensiveCalculation(data), [data]);
+
+  return <div>{processedData}</div>;
+});
+```
+
+## ファイル命名規則
+
+### コンポーネントファイル
+
+- PascalCase: `ComponentName.tsx`
+- 1 ファイル 1 コンポーネント
+- export は named + default 両方
+
+```typescript
+// ComponentName.tsx
+export const ComponentName: React.FC<Props> = () => {
+  // implementation
+};
+
+export default ComponentName;
+```
+
+### 型定義
+
+- インターフェースは`Props`サフィックス
+- 共通型は`types/`ディレクトリ
+
+```typescript
+interface ComponentNameProps {
+  // props definition
+}
+```
+
+## テスト可能性
+
+### データ属性
+
+テスト用の属性を追加：
+
+```typescript
+<button data-testid="submit-button" data-action="submit-form">
+  送信
+</button>
+```
+
+### 関心の分離
+
+ビジネスロジックと UI を分離：
+
+```typescript
+// カスタムフック
+const useFormLogic = () => {
+  // ビジネスロジック
+};
+
+// コンポーネント
+const FormComponent: React.FC = () => {
+  const { state, actions } = useFormLogic();
+  // UIレンダリングのみ
+};
+```
+
+このガイドラインに従うことで、保守性・アクセシビリティ・パフォーマンスに優れたコンポーネントを構築できます。
