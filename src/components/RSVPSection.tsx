@@ -1,28 +1,10 @@
 import React, { useState } from "react";
-import { Plus, Trash2 } from "lucide-react";
-
-interface FormData {
-  attendance: "attend" | "decline" | "";
-  name: string;
-  kana: string;
-  postcode: string;
-  address: string;
-  building: string;
-  phone: string;
-  email: string;
-  allergy: string;
-  message: string;
-}
-
-interface Companion {
-  id: string;
-  name: string;
-  kana: string;
-  allergy: string;
-}
+import { Plus, Trash2, Loader } from "lucide-react";
+import { RSVPService } from "../services/rsvpService";
+import type { RSVPFormData, CompanionData } from "../types/rsvp";
 
 export const RSVPSection: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<RSVPFormData>({
     attendance: "",
     name: "",
     kana: "",
@@ -35,10 +17,12 @@ export const RSVPSection: React.FC = () => {
     message: "",
   });
 
-  const [companions, setCompanions] = useState<Companion[]>([]);
+  const [companions, setCompanions] = useState<CompanionData[]>([]);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const handleInputChange = (field: keyof FormData, value: string) => {
+  const handleInputChange = (field: keyof RSVPFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -62,7 +46,7 @@ export const RSVPSection: React.FC = () => {
 
   const updateCompanion = (
     id: string,
-    field: keyof Omit<Companion, "id">,
+    field: keyof Omit<CompanionData, "id">,
     value: string
   ) => {
     setCompanions((prev) =>
@@ -70,11 +54,50 @@ export const RSVPSection: React.FC = () => {
     );
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // ここでFirebaseへの送信処理を実装予定
-    console.log("Form submitted:", { formData, companions });
-    alert("出欠情報を受け付けました。");
+
+    // バリデーション
+    if (!formData.attendance) {
+      setSubmitError("出欠をお選びください。");
+      return;
+    }
+
+    if (!formData.name || !formData.kana || !formData.email) {
+      setSubmitError("必須項目を入力してください。");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      await RSVPService.saveRSVP(formData, companions);
+      alert("出欠情報を登録いたしました。ありがとうございます。");
+
+      // フォームをリセット
+      setFormData({
+        attendance: "",
+        name: "",
+        kana: "",
+        postcode: "",
+        address: "",
+        building: "",
+        phone: "",
+        email: "",
+        allergy: "",
+        message: "",
+      });
+      setCompanions([]);
+      setAgreedToTerms(false);
+    } catch (error) {
+      console.error("RSVP submission error:", error);
+      setSubmitError(
+        "送信中にエラーが発生しました。しばらく経ってから再度お試しください。"
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -346,6 +369,13 @@ export const RSVPSection: React.FC = () => {
           )}
         </div>
 
+        {/* エラーメッセージ */}
+        {submitError && (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
+            <p className="text-red-600 font-medium">{submitError}</p>
+          </div>
+        )}
+
         {/* 利用規約 */}
         <div className="flex items-start gap-3">
           <input
@@ -367,10 +397,11 @@ export const RSVPSection: React.FC = () => {
         <div className="text-center">
           <button
             type="submit"
-            className="btn-primary px-12"
-            disabled={!agreedToTerms}
+            className="btn-primary px-12 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            disabled={!agreedToTerms || isSubmitting}
           >
-            送信
+            {isSubmitting && <Loader className="w-4 h-4 animate-spin" />}
+            {isSubmitting ? "送信中..." : "送信"}
           </button>
         </div>
       </form>

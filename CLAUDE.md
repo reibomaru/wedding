@@ -163,6 +163,13 @@ The app follows a component-based architecture with a main `WeddingInvitation` c
 - **レスポンシブ**: md: ブレークポイント (768px) でデスクトップ対応
 - **カラー**: rose色パレットをメインに使用
 
+### TypeScript コーディング規約
+- **Type vs Interface**: `interface` ではなく `type` を使用する
+  - 例: `type Props = { ... }` (推奨)
+  - 避ける: `interface Props { ... }`
+- **型定義**: `src/types/` ディレクトリに集約
+- **型インポート**: `import type { ... }` を使用してtype-only importを明示
+
 ## Development Notes
 - Uses ESLint with Flat Config format
 - TypeScript in strict mode with project references
