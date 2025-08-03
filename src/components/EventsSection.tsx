@@ -86,11 +86,51 @@ export const EventsSection: React.FC = () => {
 
           {/* アクセス情報 */}
           <div className="bg-gray-50 p-4 rounded-lg mb-6">
-            <h5 className="font-semibold text-gray-800 mb-3 text-base">アクセス</h5>
-            <div className="space-y-2 text-sm text-gray-700">
-              <p><strong>最寄駅：</strong>都営三田線・都営浅草線「三田駅」A9出口より徒歩2分</p>
-              <p><strong>JR線：</strong>JR山手線・京浜東北線「田町駅」三田口(西口)より徒歩8分</p>
-              <p><strong>地下鉄：</strong>東京メトロ南北線・都営三田線「白金高輪駅」1番出口より徒歩10分</p>
+            <h5 className="font-semibold text-gray-800 mb-3 text-base">
+              アクセス
+            </h5>
+            <div className="space-y-4 text-sm text-gray-700">
+              {/* 電車をご利用の方 */}
+              <div>
+                <p className="font-medium text-gray-800 mb-2">
+                  電車をご利用の方
+                </p>
+                <div className="space-y-1">
+                  <p>
+                    地下鉄（東京メトロ南北線・都営大江戸線）…麻布十番（2番出口）徒歩8分
+                  </p>
+                  <p>
+                    地下鉄（都営大江戸線）…赤羽橋（中之橋口、赤羽橋口）徒歩8分
+                  </p>
+                  <p>地下鉄（都営三田線）…芝公園（A2番出口）徒歩13分</p>
+                  <p>地下鉄（都営浅草線）…三田（A3番出口）徒歩15分</p>
+                  <p>JR（山手線・京浜東北線）…田町 徒歩15分</p>
+                </div>
+              </div>
+
+              {/* バスをご利用の方 */}
+              <div>
+                <p className="font-medium text-gray-800 mb-2">
+                  バスをご利用の方
+                </p>
+                <div className="space-y-1">
+                  <p>都06（渋谷駅前-新橋駅前）…二の橋 徒歩5分</p>
+                  <p>反96（五反田駅行・品川車庫行 他）…二の橋 徒歩5分</p>
+                  <p>田87（渋谷駅-田町駅）…慶応義塾大学前 徒歩7分</p>
+                  <p>東98（等々力駅前-東京駅南口）…赤羽橋 徒歩7分</p>
+                </div>
+              </div>
+
+              {/* お車をご利用の方 */}
+              <div>
+                <p className="font-medium text-gray-800 mb-2">
+                  お車をご利用の方
+                </p>
+                <div className="space-y-1">
+                  <p>首都高速道路 芝公園ICより 約5分</p>
+                  <p>※駐車場は50台分をご用意しております。</p>
+                </div>
+              </div>
             </div>
           </div>
 
