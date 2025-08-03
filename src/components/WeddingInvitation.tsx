@@ -20,10 +20,14 @@ export const WeddingInvitation: React.FC = () => {
 
       {/* Main Sections */}
       <MessageSection />
-      <ProfileSection />
-      <Countdown targetDate={weddingDate} />
-      <EventsSection />
-      <RSVPSection />
+
+      {/* Profile以下のセクション - グレー背景 */}
+      <div className="bg-gray-50">
+        <ProfileSection />
+        <Countdown targetDate={weddingDate} />
+        <EventsSection />
+        <RSVPSection />
+      </div>
 
       {/* Footer */}
       <footer className="bg-gray-50 py-8 mt-16">
