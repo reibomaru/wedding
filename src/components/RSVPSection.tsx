@@ -3,6 +3,7 @@ import { Plus, Trash2, Loader, Search } from "lucide-react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { RSVPService } from "../services/rsvpService";
 import { AddressService } from "../services/addressService";
+import { PrivacyPolicyModal } from "./PrivacyPolicyModal";
 import {
   validatePhoneNumber,
   formatPhoneNumber,
@@ -42,6 +43,7 @@ export const RSVPSection: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isLookingUpAddress, setIsLookingUpAddress] = useState(false);
+  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
 
   const watchedPostcode = watch("postcode");
 
@@ -464,7 +466,7 @@ export const RSVPSection: React.FC = () => {
           </div>
         )}
 
-        {/* 利用規約 */}
+        {/* プライバシーポリシー */}
         <div className="flex items-start gap-3">
           <input
             type="checkbox"
@@ -475,10 +477,14 @@ export const RSVPSection: React.FC = () => {
             required
           />
           <label htmlFor="terms" className="text-sm text-gray-700">
-            <a href="#" className="text-rose-600 hover:text-rose-700 underline">
-              利用規約
-            </a>
-            をお読みの上、ご登録ください
+            <button
+              type="button"
+              onClick={() => setShowPrivacyPolicy(true)}
+              className="text-rose-600 hover:text-rose-700 underline"
+            >
+              プライバシーポリシー
+            </button>
+            をお読みの上、同意してご登録ください
           </label>
         </div>
 
@@ -493,6 +499,12 @@ export const RSVPSection: React.FC = () => {
           </button>
         </div>
       </form>
+
+      {/* プライバシーポリシーモーダル */}
+      <PrivacyPolicyModal
+        isOpen={showPrivacyPolicy}
+        onClose={() => setShowPrivacyPolicy(false)}
+      />
     </section>
   );
 };
