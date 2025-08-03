@@ -14,12 +14,7 @@ export const ProfileSection: React.FC = () => {
           </h3>
 
           {/* プロフィール写真 */}
-          <ProfilePhoto
-            mainPhoto="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face"
-            hoverPhoto="https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?w=400&h=400&fit=crop&crop=face"
-            alt="杉浦 伶のプロフィール写真"
-            name="新郎"
-          />
+          <ProfilePhoto person="groom" alt="杉浦 伶のプロフィール写真" />
 
           <div className="space-y-4 text-gray-700">
             <div>
@@ -56,12 +51,7 @@ export const ProfileSection: React.FC = () => {
           </h3>
 
           {/* プロフィール写真 */}
-          <ProfilePhoto
-            mainPhoto="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=400&fit=crop&crop=face"
-            hoverPhoto="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face"
-            alt="田中 陽子のプロフィール写真"
-            name="新婦"
-          />
+          <ProfilePhoto person="bride" alt="田中 陽子のプロフィール写真" />
 
           <div className="space-y-4 text-gray-700">
             <div>
