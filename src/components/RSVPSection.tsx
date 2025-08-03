@@ -152,7 +152,10 @@ export const RSVPSection: React.FC = () => {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-8 bg-white p-8 rounded-lg shadow-sm"
+      >
         {/* 出欠選択 */}
         <div>
           <div className="flex gap-8 justify-center mb-8">
