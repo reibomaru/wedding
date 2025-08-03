@@ -1,5 +1,14 @@
-import React from "react";
-import { MapPin, ExternalLink, Calendar } from "lucide-react";
+import React, { useState } from "react";
+import {
+  MapPin,
+  ExternalLink,
+  Calendar,
+  ChevronDown,
+  ChevronRight,
+  Train,
+  Bus,
+  Car,
+} from "lucide-react";
 import { GoogleMap } from "./GoogleMap";
 import { FacilitySlideshow } from "./FacilitySlideshow";
 
@@ -12,6 +21,13 @@ export const EventsSection: React.FC = () => {
     address: "〒108-0073 東京都港区三田2-3-7",
   };
 
+  // アコーディオンの開閉状態を管理
+  const [openAccordion, setOpenAccordion] = useState<string | null>(null);
+
+  const handleAccordionToggle = (section: string) => {
+    setOpenAccordion(openAccordion === section ? null : section);
+  };
+
   const handleGoogleMapClick = () => {
     // Google Maps アプリまたはブラウザで開く
     const url = `https://www.google.com/maps/search/?api=1&query=${venueLocation.lat},${venueLocation.lng}`;
@@ -21,6 +37,10 @@ export const EventsSection: React.FC = () => {
   return (
     <section id="events" className="section-container">
       <h2 className="heading-main text-center">Information</h2>
+
+      <p className="text-center text-gray-700 mb-16">
+        皆様には、挙式よりご臨席賜りたく、何卒よろしくお願い申し上げます。
+      </p>
 
       <div className="grid md:grid-cols-2 gap-12 mb-16">
         {/* 挙式 */}
@@ -90,52 +110,104 @@ export const EventsSection: React.FC = () => {
             <FacilitySlideshow className="h-64 md:h-96 w-full" />
           </div>
 
-          {/* アクセス情報 */}
+          {/* アクセス情報 - アコーディオン形式 */}
           <div className="bg-gray-50 p-4 rounded-lg mb-6">
-            <h5 className="font-semibold text-gray-800 mb-3 text-base">
+            <h5 className="font-semibold text-gray-800 mb-4 text-base">
               アクセス
             </h5>
-            <div className="space-y-4 text-sm text-gray-700">
+
+            <div className="space-y-3">
               {/* 電車をご利用の方 */}
-              <div>
-                <p className="font-medium text-gray-800 mb-2">
-                  電車をご利用の方
-                </p>
-                <div className="space-y-1">
-                  <p>
-                    地下鉄（東京メトロ南北線・都営大江戸線）…麻布十番（2番出口）徒歩8分
-                  </p>
-                  <p>
-                    地下鉄（都営大江戸線）…赤羽橋（中之橋口、赤羽橋口）徒歩8分
-                  </p>
-                  <p>地下鉄（都営三田線）…芝公園（A2番出口）徒歩13分</p>
-                  <p>地下鉄（都営浅草線）…三田（A3番出口）徒歩15分</p>
-                  <p>JR（山手線・京浜東北線）…田町 徒歩15分</p>
-                </div>
+              <div className="border border-gray-200 rounded-lg overflow-hidden">
+                <button
+                  onClick={() => handleAccordionToggle("train")}
+                  className="w-full flex items-center justify-between p-4 bg-white hover:bg-gray-50 transition-colors duration-200"
+                >
+                  <div className="flex items-center gap-3">
+                    <Train className="text-blue-600" size={20} />
+                    <span className="font-medium text-gray-800">
+                      電車をご利用の方
+                    </span>
+                  </div>
+                  {openAccordion === "train" ? (
+                    <ChevronDown className="text-gray-500" size={20} />
+                  ) : (
+                    <ChevronRight className="text-gray-500" size={20} />
+                  )}
+                </button>
+                {openAccordion === "train" && (
+                  <div className="p-4 bg-gray-50 border-t border-gray-200">
+                    <div className="space-y-2 text-sm text-gray-700 text-left">
+                      <p>
+                        地下鉄（東京メトロ南北線・都営大江戸線）…麻布十番（2番出口）徒歩8分
+                      </p>
+                      <p>
+                        地下鉄（都営大江戸線）…赤羽橋（中之橋口、赤羽橋口）徒歩8分
+                      </p>
+                      <p>地下鉄（都営三田線）…芝公園（A2番出口）徒歩13分</p>
+                      <p>地下鉄（都営浅草線）…三田（A3番出口）徒歩15分</p>
+                      <p>JR（山手線・京浜東北線）…田町 徒歩15分</p>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* バスをご利用の方 */}
-              <div>
-                <p className="font-medium text-gray-800 mb-2">
-                  バスをご利用の方
-                </p>
-                <div className="space-y-1">
-                  <p>都06（渋谷駅前-新橋駅前）…二の橋 徒歩5分</p>
-                  <p>反96（五反田駅行・品川車庫行 他）…二の橋 徒歩5分</p>
-                  <p>田87（渋谷駅-田町駅）…慶応義塾大学前 徒歩7分</p>
-                  <p>東98（等々力駅前-東京駅南口）…赤羽橋 徒歩7分</p>
-                </div>
+              <div className="border border-gray-200 rounded-lg overflow-hidden">
+                <button
+                  onClick={() => handleAccordionToggle("bus")}
+                  className="w-full flex items-center justify-between p-4 bg-white hover:bg-gray-50 transition-colors duration-200"
+                >
+                  <div className="flex items-center gap-3">
+                    <Bus className="text-green-600" size={20} />
+                    <span className="font-medium text-gray-800">
+                      バスをご利用の方
+                    </span>
+                  </div>
+                  {openAccordion === "bus" ? (
+                    <ChevronDown className="text-gray-500" size={20} />
+                  ) : (
+                    <ChevronRight className="text-gray-500" size={20} />
+                  )}
+                </button>
+                {openAccordion === "bus" && (
+                  <div className="p-4 bg-gray-50 border-t border-gray-200">
+                    <div className="space-y-2 text-sm text-gray-700 text-left">
+                      <p>都06（渋谷駅前-新橋駅前）…二の橋 徒歩5分</p>
+                      <p>反96（五反田駅行・品川車庫行 他）…二の橋 徒歩5分</p>
+                      <p>田87（渋谷駅-田町駅）…慶応義塾大学前 徒歩7分</p>
+                      <p>東98（等々力駅前-東京駅南口）…赤羽橋 徒歩7分</p>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* お車をご利用の方 */}
-              <div>
-                <p className="font-medium text-gray-800 mb-2">
-                  お車をご利用の方
-                </p>
-                <div className="space-y-1">
-                  <p>首都高速道路 芝公園ICより 約5分</p>
-                  <p>※駐車場は50台分をご用意しております。</p>
-                </div>
+              <div className="border border-gray-200 rounded-lg overflow-hidden">
+                <button
+                  onClick={() => handleAccordionToggle("car")}
+                  className="w-full flex items-center justify-between p-4 bg-white hover:bg-gray-50 transition-colors duration-200"
+                >
+                  <div className="flex items-center gap-3">
+                    <Car className="text-orange-600" size={20} />
+                    <span className="font-medium text-gray-800">
+                      お車をご利用の方
+                    </span>
+                  </div>
+                  {openAccordion === "car" ? (
+                    <ChevronDown className="text-gray-500" size={20} />
+                  ) : (
+                    <ChevronRight className="text-gray-500" size={20} />
+                  )}
+                </button>
+                {openAccordion === "car" && (
+                  <div className="p-4 bg-gray-50 border-t border-gray-200">
+                    <div className="space-y-2 text-sm text-gray-700 text-left">
+                      <p>首都高速道路 芝公園ICより 約5分</p>
+                      <p>※駐車場は50台分をご用意しております。</p>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
