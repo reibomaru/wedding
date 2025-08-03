@@ -1,0 +1,136 @@
+---
+alwaysApply: true
+description: 結婚式招待状アプリのコンポーネント情報ガイド
+---
+
+# Wedding Invitation Components Guide
+
+結婚式招待状アプリケーションの各コンポーネントの役割と構造を説明するだぬ。
+
+## Core Components
+
+### 📱 メインコンポーネント
+
+- **[WeddingInvitation.tsx](mdc:src/components/WeddingInvitation.tsx)** - アプリ全体の構造を管理するルートコンポーネント
+  - 2025 年 10 月 4 日の結婚式日時を設定
+  - 全セクションの配置とナビゲーション統合
+  - フッター情報を含む
+
+### 🎬 アニメーション・UI
+
+- **[IntroAnimation.tsx](mdc:src/components/IntroAnimation.tsx)** - 初回訪問時のエントランスアニメーション
+
+  - "WEDDING INVITATION"の文字送りエフェクト（10ms 間隔）
+  - 3 秒待機後 2 秒でフェードアウト
+  - レスポンシブ対応（モバイル時は改行）
+
+- **[Navigation.tsx](mdc:src/components/Navigation.tsx)** - 固定ナビゲーションバー
+  - セクション間のスムーススクロール機能
+  - アクティブセクションのハイライト表示
+  - モバイル対応（ハンバーガーメニュー）
+  - 5 つのセクション対応：Message / Profile / Countdown / Events / RSVP
+
+### 🖼️ コンテンツ表示
+
+- **[ImageSlideshow.tsx](mdc:src/components/ImageSlideshow.tsx)** - ヒーローセクションの画像スライドショー
+
+  - デバイス別画像フィルタリング（PC/SP 対応）
+  - 5 秒間隔の自動スライド機能
+  - テキストカラーの動的変更
+  - ナビゲーションボタン・インジケーター付き
+  - 使用画像：M002.jpg, M031.jpg, M061.jpg, M075.jpg, M077.jpg
+
+- **[MessageSection.tsx](mdc:src/components/MessageSection.tsx)** - 結婚式招待のメッセージ
+  - 伝統的な招待状の文言を表示
+  - エレガントなタイポグラフィ設定
+
+## 機能別セクション
+
+### ⏰ カウントダウン
+
+- **[Countdown.tsx](mdc:src/components/Countdown.tsx)** - リアルタイムカウントダウンタイマー
+  - 日・時・分・秒の表示
+  - 1 秒間隔の自動更新
+  - 結婚式日時：2025 年 10 月 4 日 11:30
+
+### 👥 プロフィール
+
+- **[ProfileSection.tsx](mdc:src/components/ProfileSection.tsx)** - 新郎新婦のプロフィール表示
+  - 新郎：杉浦 伶（1998/5/29、神奈川県横浜市、ソフトウェアエンジニア）
+  - 新婦：田中 陽子（1997/9/18、東京都品川区、システムエンジニア）
+  - 趣味・メッセージ情報を含む
+
+### 📍 イベント情報
+
+- **[EventsSection.tsx](mdc:src/components/EventsSection.tsx)** - 結婚式・披露宴の詳細情報
+
+  - 挙式：10:30 / 披露宴：11:30（受付 11:00）
+  - 会場：綱町三井倶楽部（東京都港区三田 2-3-7）
+  - GoogleMap 埋め込み表示
+  - 公式サイトリンク・カレンダー追加機能
+
+- **[GoogleMap.tsx](mdc:src/components/GoogleMap.tsx)** - Google Maps API を使用した地図表示
+  - @vis.gl/react-google-maps ライブラリ使用
+  - 環境変数 VITE_GOOGLE_MAPS_API_KEY が必要
+  - Advanced Marker でピン表示
+  - レスポンシブ対応
+
+### 📝 出欠確認
+
+- **[RSVPSection.tsx](mdc:src/components/RSVPSection.tsx)** - 出欠確認フォーム
+  - 出席/欠席ラジオボタン選択
+  - 本人情報：名前、カナ、住所、連絡先、アレルギー、メッセージ
+  - お連れ様情報（最大 5 名まで追加可能）
+  - 利用規約同意チェックボックス
+  - Firebase 連携予定（現在はコンソール出力のみ）
+  - 回答期限：2025 年 9 月 2 日
+
+## デザインシステム
+
+### スタイリング規則
+
+- **Tailwind CSS v4** を使用
+- **カスタムクラス**：
+  - `section-container`：セクション共通コンテナ
+  - `heading-main`：メインヘッダー
+  - `text-elegant`：エレガントテキスト
+  - `btn-primary`：プライマリボタン
+  - `input-field`：フォーム入力フィールド
+
+### カラーパレット
+
+- **プライマリ**：rose-600 (#e11d48)
+- **テキスト**：gray-800, gray-600, gray-700
+- **背景**：white, gray-50, gray-100
+
+### レスポンシブ対応
+
+- **ブレークポイント**：md (768px 以上)
+- **モバイルファースト**設計
+- **グリッドレイアウト**多用（md:grid-cols-2 等）
+
+## 技術的特徴
+
+### 状態管理
+
+- React Hooks（useState, useEffect）を活用
+- コンポーネント間のデータ受け渡しは props 経由
+
+### アニメーション
+
+- CSS Transitions と Tailwind クラスによる実装
+- JavaScript タイマーベースのカウントダウン
+
+### アクセシビリティ
+
+- セマンティック HTML 使用
+- aria-label 属性設定
+- キーボードナビゲーション対応
+
+### パフォーマンス
+
+- 画像の遅延読み込み対応
+- デバイス別画像フィルタリング
+- 効率的な状態更新
+
+このガイドを参考に、各コンポーネントの役割を理解して開発を進めるだぬ。
