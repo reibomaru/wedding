@@ -12,6 +12,16 @@ import {
 import { GoogleMap } from "./GoogleMap";
 import { FacilitySlideshow } from "./FacilitySlideshow";
 
+// 駅ナンバリングロゴをインポート
+import stationE21 from "../assets/station/E-21.png"; // 赤羽橋（都営大江戸線）
+import stationE22 from "../assets/station/E-22.png"; // 麻布十番（都営大江戸線）
+import stationA08 from "../assets/station/A-08.png"; // 三田（都営浅草線）
+import stationI04 from "../assets/station/I-04.png"; // 三田（都営三田線）
+import stationI05 from "../assets/station/I-05.png"; // 芝公園（都営三田線）
+import stationN04 from "../assets/station/N-04.png"; // 麻布十番（東京メトロ南北線）
+import stationJY27 from "../assets/station/JY-27.png"; // 田町（JR山手線）
+import stationJK22 from "../assets/station/JK-22.png"; // 田町（JR京浜東北線）
+
 export const EventsSection: React.FC = () => {
   // 綱町三井倶楽部の座標
   const venueLocation = {
@@ -124,7 +134,7 @@ export const EventsSection: React.FC = () => {
                   className="w-full flex items-center justify-between p-4 bg-white hover:bg-gray-50 transition-colors duration-200"
                 >
                   <div className="flex items-center gap-3">
-                    <Train className="text-blue-600" size={20} />
+                    <Train className="text-gray-600" size={20} />
                     <span className="font-medium text-gray-800">
                       電車をご利用の方
                     </span>
@@ -137,16 +147,83 @@ export const EventsSection: React.FC = () => {
                 </button>
                 {openAccordion === "train" && (
                   <div className="p-4 bg-gray-50 border-t border-gray-200">
-                    <div className="space-y-2 text-sm text-gray-700 text-left">
-                      <p>
-                        地下鉄（東京メトロ南北線・都営大江戸線）…麻布十番（2番出口）徒歩8分
-                      </p>
-                      <p>
-                        地下鉄（都営大江戸線）…赤羽橋（中之橋口、赤羽橋口）徒歩8分
-                      </p>
-                      <p>地下鉄（都営三田線）…芝公園（A2番出口）徒歩13分</p>
-                      <p>地下鉄（都営浅草線）…三田（A3番出口）徒歩15分</p>
-                      <p>JR（山手線・京浜東北線）…田町 徒歩15分</p>
+                    <div className="space-y-4 text-sm text-gray-700 text-left">
+                      {/* 麻布十番駅 */}
+                      <div className="flex items-start gap-3">
+                        <div className="flex gap-1 flex-shrink-0">
+                          <img
+                            src={stationN04}
+                            alt="南北線 麻布十番駅"
+                            className="h-6 w-auto"
+                          />
+                          <img
+                            src={stationE22}
+                            alt="大江戸線 麻布十番駅"
+                            className="h-6 w-auto"
+                          />
+                        </div>
+                        <p>
+                          地下鉄（東京メトロ南北線・都営大江戸線）…麻布十番（2番出口）徒歩8分
+                        </p>
+                      </div>
+
+                      {/* 赤羽橋駅 */}
+                      <div className="flex items-start gap-3">
+                        <img
+                          src={stationE21}
+                          alt="大江戸線 赤羽橋駅"
+                          className="h-6 w-auto flex-shrink-0"
+                        />
+                        <p>
+                          地下鉄（都営大江戸線）…赤羽橋（中之橋口、赤羽橋口）徒歩8分
+                        </p>
+                      </div>
+
+                      {/* 芝公園駅 */}
+                      <div className="flex items-start gap-3">
+                        <img
+                          src={stationI05}
+                          alt="三田線 芝公園駅"
+                          className="h-6 w-auto flex-shrink-0"
+                        />
+                        <p>地下鉄（都営三田線）…芝公園（A2番出口）徒歩13分</p>
+                      </div>
+
+                      {/* 三田駅 */}
+                      <div className="flex items-start gap-3">
+                        <div className="flex gap-1 flex-shrink-0">
+                          <img
+                            src={stationA08}
+                            alt="浅草線 三田駅"
+                            className="h-6 w-auto"
+                          />
+                          <img
+                            src={stationI04}
+                            alt="三田線 三田駅"
+                            className="h-6 w-auto"
+                          />
+                        </div>
+                        <p>
+                          地下鉄（都営浅草線・都営三田線）…三田（A3番出口）徒歩15分
+                        </p>
+                      </div>
+
+                      {/* 田町駅 */}
+                      <div className="flex items-start gap-3">
+                        <div className="flex gap-1 flex-shrink-0">
+                          <img
+                            src={stationJY27}
+                            alt="山手線 田町駅"
+                            className="h-6 w-auto"
+                          />
+                          <img
+                            src={stationJK22}
+                            alt="京浜東北線 田町駅"
+                            className="h-6 w-auto"
+                          />
+                        </div>
+                        <p>JR（山手線・京浜東北線）…田町 徒歩15分</p>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -159,7 +236,7 @@ export const EventsSection: React.FC = () => {
                   className="w-full flex items-center justify-between p-4 bg-white hover:bg-gray-50 transition-colors duration-200"
                 >
                   <div className="flex items-center gap-3">
-                    <Bus className="text-green-600" size={20} />
+                    <Bus className="text-gray-600" size={20} />
                     <span className="font-medium text-gray-800">
                       バスをご利用の方
                     </span>
@@ -189,7 +266,7 @@ export const EventsSection: React.FC = () => {
                   className="w-full flex items-center justify-between p-4 bg-white hover:bg-gray-50 transition-colors duration-200"
                 >
                   <div className="flex items-center gap-3">
-                    <Car className="text-orange-600" size={20} />
+                    <Car className="text-gray-600" size={20} />
                     <span className="font-medium text-gray-800">
                       お車をご利用の方
                     </span>
