@@ -86,6 +86,11 @@ export const EventsSection: React.FC = () => {
             </h4>
           </div>
 
+          {/* 会場スライドショー */}
+          <div className="mb-6">
+            <FacilitySlideshow className="h-64 md:h-96 w-full" />
+          </div>
+
           <div className="flex items-center justify-center gap-3 mb-4">
             <MapPin className="text-gray-500 flex-shrink-0" size={20} />
             <p className="text-gray-700 text-base">
