@@ -74,9 +74,9 @@ export const ProfileSection: React.FC = () => {
             </div>
 
             <div className="bg-gray-50 p-4 rounded-lg text-sm leading-relaxed">
-              <p className="mb-2">料理と登山が息抜きです</p>
+              <p className="mb-2">クラシカルで伝統のある建物で結婚式ができること、とても幸せです。</p>
               <p>
-                お食事の時間、お喋りの時間を大切にしたいとの思いで作り上げました。当日はよろしくお願いします！
+                お喋りの時間をたくさんとりたいと思っていますので、当日はよろしくお願いします！
               </p>
             </div>
           </div>
